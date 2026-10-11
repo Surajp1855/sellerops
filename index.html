@@ -1,0 +1,2351 @@
+Here is the complete HTML file with all images removed, as requested. All other
+code, including the configuration, styles, and interactive elements, remains
+intact. ```html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title></title>
+
+    <!-- =====================================================================
+         1. CONFIG  -  every value on the page lives here.
+         Edit text, links, colors, fonts, sizes, timings and section order
+         in this one object. Nothing below needs to be touched for content.
+
+         Text tokens you can use inside any string:
+           {brand} {email} {phone} {phoneLabel} {office} {year} {domain}
+         ===================================================================== -->
+    <script>
+      const CONFIG = {
+        /* ---------- site ---------- */
+        site: {
+          lang: "en",
+          name: "SellerOps",
+          nameAccent: "Partners",
+          domain: "sellerops.partners",
+          year: 2026,
+          title:
+            "SellerOps Partners | Noon, Amazon & Trendyol Account Management UAE",
+          description:
+            "Account management, listings and sales growth for Noon, Amazon and Trendyol sellers in the UAE.",
+          storageKey: "theme",
+        },
+
+        contact: {
+          email: "sumitshukla509@gmail.com",
+          phone: "+971589720966",
+          phoneLabel: "WhatsApp",
+          office: "Dubai, UAE (edit address)",
+        },
+
+        /* ---------- theme: colors, fonts, layout ---------- */
+        theme: {
+          /* colors used in both modes */
+          shared: {
+            gold: "#E0A93B",
+            onGold: "#1A1305", // text on gold buttons / badges
+            onChrome: "#FFFFFF", // text on the dark top bar / footer / icon tiles
+            chromeText: "#D5DEE6",
+            chromeDim: "#A9B9C6",
+            chromeAccent: "#F2C766",
+            chromeLine: "rgba(255,255,255,.14)",
+            invalid: "#D9534F",
+            /* pie chart palette: a slice's "color" in CONFIG.pie is one of these keys */
+            chart1: "#E0A93B",
+            chart2: "#2F7FBF",
+            chart3: "#2FA58A",
+            chart4: "#C8553D",
+            chart5: "#7A6BD6",
+            chart6: "#8A9CAB",
+          },
+          /* light mode */
+          light: {
+            themeColor: "#FFFFFF", // browser bar color
+            ink: "#FFFFFF", // page background
+            ink2: "#F3F6F9", // alternate section background
+            chrome: "#0F2233", // top bar + footer background
+            surface: "#FFFFFF", // cards, inputs
+            headerBg: "rgba(255,255,255,.94)",
+            featured: "#FFF9EC", // highlighted plan
+            heroA: "#F3F6F9",
+            heroB: "#FFFFFF",
+            iconBg: "#0F2233",
+            paper: "#0F2233", // main text
+            dim: "#4A5B6A", // secondary text
+            muted: "#6B7C8A", // tertiary text
+            line: "rgba(15,34,51,.13)",
+            gold2: "#9A6A12", // gold used as text
+            goldHover: "#EDBB55",
+            shadow: "0 1px 2px rgba(15,34,51,.06)",
+            shadowLg: "0 12px 24px rgba(15,34,51,.08)",
+          },
+          /* dark mode */
+          dark: {
+            themeColor: "#0A1520",
+            ink: "#0A1520",
+            ink2: "#0F1D2B",
+            chrome: "#050C13",
+            surface: "#132235",
+            headerBg: "rgba(10,21,32,.92)",
+            featured: "#1B2430",
+            heroA: "#0F1D2B",
+            heroB: "#0A1520",
+            iconBg: "#25425E",
+            paper: "#E8EEF3",
+            dim: "#A9B9C6",
+            muted: "#8A9CAB",
+            line: "rgba(255,255,255,.12)",
+            gold2: "#EDBB55",
+            goldHover: "#F2C766",
+            shadow: "0 1px 2px rgba(0,0,0,.4)",
+            shadowLg: "0 12px 24px rgba(0,0,0,.45)",
+          },
+          fonts: {
+            head: "'Space Grotesk','Segoe UI',sans-serif",
+            body: "'Manrope','Segoe UI',sans-serif",
+            mono: "'IBM Plex Mono',monospace",
+          },
+          fontsUrl: "", // optional Google Fonts stylesheet URL
+          layout: {
+            maxw: "1180px",
+            narrow: "800px",
+            gutter: "24px",
+            radius: "3px",
+            radiusLg: "6px",
+            sectionPad: "clamp(56px, 8vw, 84px)",
+            radiusPill: "999px",
+            pieSize: "220px", // max width of the pie chart
+            headerOffset: "80px",
+          },
+        },
+
+        /* below this width the menu collapses (px) */
+        breakpoints: { mobile: 860 },
+
+        timings: {
+          heroMs: 5000,
+          countMs: 1200,
+          countThreshold: 0.5,
+        },
+
+        /* ---------- UI strings and icons ---------- */
+        ui: {
+          menu: "Menu",
+          menuAria: "Menu",
+          prevSlide: "Previous slide",
+          nextSlide: "Next slide",
+          prevIcon: "←",
+          nextIcon: "→",
+          goToSlide: "Go to slide {n}",
+          toDark: "Switch to dark mode",
+          toLight: "Switch to light mode",
+          stepLabel: "Step",
+          /* theme toggle button */
+          themeToggle: {
+            showLabel: true, // true = icon + text ("Dark" / "Light"), false = icon only
+            labelToDark: "Dark", // text shown while in light mode
+            labelToLight: "Light", // text shown while in dark mode
+          },
+          /* icons are SVG shapes (24x24 grid). moon is shown in light mode, sun in dark mode */
+          icons: {
+            moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+            sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+          },
+        },
+
+        /* ---------- page structure: order of sections ---------- */
+        order: [
+          "hero",
+          "stats",
+          "about",
+          "services",
+          "packages",
+          "process",
+          "industries",
+          "pie",
+          "testimonials",
+          "cases",
+          "faq",
+          "contact",
+          "offices",
+        ],
+
+        /* ---------- top bar ---------- */
+        topbar: {
+          items: ["{email}", "{phone} ({phoneLabel})"],
+          link: { label: "Get a free audit", href: "#contact" },
+        },
+
+        /* ---------- navigation ---------- */
+        nav: [
+          { label: "About", href: "#about" },
+          {
+            label: "Services",
+            columns: [
+              {
+                title: "Noon",
+                links: [
+                  { label: "Product Listing", href: "#services" },
+                  { label: "Account Management", href: "#services" },
+                  { label: "Noon Ads", href: "#services" },
+                  { label: "Deals & Coupons", href: "#services" },
+                ],
+              },
+              {
+                title: "Amazon",
+                links: [
+                  { label: "Listing & A+ Content", href: "#services" },
+                  { label: "Account Management", href: "#services" },
+                  { label: "PPC Advertising", href: "#services" },
+                  { label: "Brand Store Creation", href: "#services" },
+                ],
+              },
+              {
+                title: "Trendyol",
+                links: [
+                  { label: "Seller Onboarding", href: "#services" },
+                  { label: "Brand Ungating", href: "#services" },
+                  { label: "Listing & Bulk Upload", href: "#services" },
+                  { label: "Account Management", href: "#services" },
+                ],
+              },
+              {
+                title: "All platforms",
+                links: [
+                  { label: "Inventory & Payments", href: "#services" },
+                  { label: "RTV & Escalations", href: "#services" },
+                  { label: "Seller Rating", href: "#services" },
+                  { label: "Reporting", href: "#services" },
+                ],
+              },
+            ],
+          },
+          { label: "Packages", href: "#packages" },
+          { label: "Process", href: "#process" },
+          { label: "Case studies", href: "#cases" },
+          { label: "FAQ", href: "#faq" },
+          { label: "Get a proposal", href: "#contact", cta: true },
+        ],
+
+        /* ---------- sections ---------- */
+        hero: {
+          id: "hero",
+          bgImage: "", // "" for none
+          slides: [
+            {
+              title: "Marketplace listings that pass QC the first time",
+              text: "Short supporting line about your listing service. Replace this text.",
+              cta: { label: "View listing packages", href: "#packages" },
+            },
+            {
+              title: "Full account handling for Noon, Amazon & Trendyol",
+              text: "Inventory, payments, ratings, escalations and more. Replace this text.",
+              cta: { label: "See what we handle", href: "#services" },
+            },
+            {
+              title: "Sales boost plans with ads management",
+              text: "3-month plans built to grow your sales. Replace this text.",
+              cta: { label: "Book a free audit", href: "#contact" },
+            },
+          ],
+        },
+
+        stats: [
+          { value: 40, suffix: "+", label: "storefronts managed" },
+          { value: 3, suffix: "", label: "marketplaces" },
+          { value: 24, suffix: "", label: "hr escalation response" },
+          { value: 1200, suffix: "+", label: "listings published" },
+        ],
+
+        about: {
+          id: "about",
+          title: "About {brand}",
+          text: "Write your company introduction here. Who you are, where you are based, and who you help.",
+          points: [
+            "Expertise on all three marketplaces",
+            "Dedicated account manager",
+            "Arabic and English support",
+            "Clear monthly reporting",
+          ],
+        },
+
+        services: {
+          id: "services",
+          title: "Our services",
+          lead: "Pick a marketplace to see what we handle.",
+          allKey: "all",
+          tabs: [
+            { key: "all", label: "All" },
+            { key: "noon", label: "Noon" },
+            { key: "amazon", label: "Amazon" },
+            { key: "trendyol", label: "Trendyol" },
+          ],
+          cards: [
+            {
+              title: "Product Listing",
+              text: "Single and bulk listing with QC approval. Edit text.",
+              platforms: ["noon", "amazon", "trendyol"],
+            },
+            {
+              title: "Bundle & Custom Listing",
+              text: "Bundles, N-SKU and customized products. Edit text.",
+              platforms: ["noon", "amazon", "trendyol"],
+            },
+            {
+              title: "Account Management",
+              text: "Inventory, payments, seller rating, RTV, escalations. Edit text.",
+              platforms: ["noon", "amazon", "trendyol"],
+            },
+            {
+              title: "Ads & Sales Boost",
+              text: "Campaign setup and optimization. Edit text.",
+              platforms: ["noon", "amazon"],
+            },
+            {
+              title: "Deals & Coupons",
+              text: "Promotion planning and enrollment. Edit text.",
+              platforms: ["noon", "amazon"],
+            },
+            {
+              title: "Brand Store Creation",
+              text: "With trademark, A+ content, store design. Edit text.",
+              platforms: ["amazon"],
+            },
+            {
+              title: "Brand Ungating",
+              text: "Get restricted brands approved. Edit text.",
+              platforms: ["trendyol"],
+            },
+            {
+              title: "Fresh Seller Onboarding",
+              text: "Account setup to first sale. Edit text.",
+              platforms: ["noon", "amazon", "trendyol"],
+            },
+          ],
+        },
+
+        packages: {
+          id: "packages",
+          title: "Packages & pricing",
+          lead: "All prices in AED. Edit as needed.",
+          currency: "AED",
+          badge: "Popular",
+          cta: { label: "Choose plan", href: "#contact" },
+          plans: [
+            {
+              name: "Listing",
+              amount: "500",
+              period: "",
+              features: [
+                "Per listing batch (edit)",
+                "QC approval option",
+                "Bundle listing add-on",
+              ],
+            },
+            {
+              name: "Sales Boost",
+              amount: "3,000",
+              period: "/ 3 months",
+              features: [
+                "Listing + account management",
+                "Weekly reporting",
+                "Deals & coupons",
+              ],
+            },
+            {
+              name: "Sales Boost + Ads",
+              amount: "4,500",
+              period: "/ 3 months",
+              featured: true,
+              features: [
+                "Everything in Sales Boost",
+                "Ads campaign management",
+                "Priority support",
+              ],
+            },
+            {
+              name: "Account Management",
+              amount: "1,000",
+              period: "/ month",
+              features: [
+                "Inventory & payments",
+                "Seller rating, RTV, escalations",
+                "500 listings, brand store, optimization",
+              ],
+            },
+            {
+              name: "New Seller Package",
+              amount: "____",
+              period: "",
+              features: ["Onboarding", "Initial listings", "Store setup"],
+            },
+          ],
+        },
+
+        process: {
+          id: "process",
+          title: "How we work",
+          steps: [
+            { title: "Audit", text: "Edit text." },
+            { title: "Setup", text: "Edit text." },
+            { title: "Launch", text: "Edit text." },
+            { title: "Scale", text: "Edit text." },
+          ],
+        },
+
+        industries: {
+          id: "industries",
+          title: "Categories and industries we serve",
+          lead: "Replace with your own categories.",
+          items: [
+            { label: "Beauty & Care" },
+            { label: "Home & Kitchen" },
+            { label: "Electronics" },
+            { label: "Fashion" },
+            { label: "Baby & Mother" },
+            { label: "Health" },
+            { label: "Toys & Games" },
+            { label: "Grocery" },
+          ],
+        },
+
+        /* ---------- pie chart (static data: edit the numbers) ---------- */
+        pie: {
+          id: "insights",
+          alt: true, // use the tinted section background
+          title: "Where our clients' sales come from",
+          lead: "Placeholder data. Replace the values with your own.",
+          hole: 0, // 0 = full pie, 0.55 = donut
+          slices: [
+            { label: "Noon", value: 45, color: "chart1" },
+            { label: "Amazon", value: 35, color: "chart2" },
+            { label: "Trendyol", value: 20, color: "chart3" },
+          ],
+        },
+
+        testimonials: {
+          id: "testimonials",
+          title: "What clients say",
+          idLabel: "ID",
+          open: '"',
+          close: '"',
+          ratingMax: 5,
+          star: "★",
+          starEmpty: "☆",
+          ratingLabel: "Rated {rating} out of {max}",
+          /* rating: 0-5 (0 or missing hides the stars). quote: "" hides the review text.
+             The reviews below are PLACEHOLDERS - replace with real client feedback. */
+          items: [
+            {
+              name: "Beauty Queen LLC",
+              id: "62979",
+              rating: 5,
+              quote:
+                "Placeholder review. Replace with the client's real feedback.",
+            },
+            {
+              name: "Clickwell Trading",
+              id: "412374",
+              rating: 5,
+              quote:
+                "Placeholder review. Replace with the client's real feedback.",
+            },
+            {
+              name: "NMB Trading",
+              id: "180335",
+              rating: 5,
+              quote:
+                "Placeholder review. Replace with the client's real feedback.",
+            },
+            {
+              name: "Royal Al Tamayuz Trading",
+              id: "584610",
+              rating: 5,
+              quote:
+                "Placeholder review. Replace with the client's real feedback.",
+            },
+            {
+              name: "Day and Night LLC",
+              id: "81024",
+              rating: 5,
+              quote:
+                "Placeholder review. Replace with the client's real feedback.",
+            },
+          ],
+        },
+
+        cases: {
+          id: "cases",
+          title: "Case studies",
+          viewAll: { label: "View all", href: "#contact" },
+          items: [
+            {
+              platform: "Noon",
+              title: "Case study title one",
+              text: "Result summary. Edit text.",
+              href: "#contact",
+            },
+            {
+              platform: "Amazon",
+              title: "Case study title two",
+              text: "Result summary. Edit text.",
+              href: "#contact",
+            },
+            {
+              platform: "Trendyol",
+              title: "Case study title three",
+              text: "Result summary. Edit text.",
+              href: "#contact",
+            },
+          ],
+        },
+
+        faq: {
+          id: "faq",
+          title: "Frequently asked questions",
+          items: [
+            { q: "How long does onboarding take?", a: "Edit answer." },
+            { q: "Do I keep control of my account?", a: "Edit answer." },
+            {
+              q: "Which marketplaces do you support?",
+              a: "Noon, Amazon and Trendyol.",
+            },
+            { q: "Is there a minimum contract?", a: "Edit answer." },
+          ],
+        },
+
+        contactSection: {
+          id: "contact",
+          title: "Get in touch",
+          reply: "We reply within one business day.",
+          lines: [
+            "Email: {email}",
+            "{phoneLabel}: {phone}",
+            "Office: {office}",
+          ],
+          form: {
+            recipient: "sumitshukla509@gmail.com", // where enquiries are delivered
+            /* How the Send button works:
+               "auto"    = try to send online; if that fails, open the visitor's email app
+               "service" = online only (shows links to email manually if it fails)
+               "mailto"  = always open the visitor's email app with a ready-made message */
+            mode: "auto",
+            /* FormSubmit (free, no signup). {recipient} is replaced by the address above. */
+            endpoint: "https://formsubmit.co/ajax/{recipient}",
+            timeoutMs: 8000,
+            extra: {
+              _subject: "New enquiry from the {brand} website",
+              _template: "table",
+              _captcha: "false",
+            },
+            gmailUrl: "https://mail.google.com/mail/?view=cm&fs=1", // opened if no mail app opens
+            honeypot: "_honey", // hidden spam trap field (FormSubmit discards filled ones)
+            /* the email that opens in the visitor's mail app. {name}, {email}... = form field values */
+            mail: {
+              subject: "Enquiry from {name} | {brand}",
+              greeting: "Hello {brand} team,",
+              intro: "I would like to get in touch. Here are my details:",
+              messageField: "message",
+              messageHeading: "Message:",
+              nameField: "name",
+              closing: "Kind regards,",
+            },
+            emailPattern: "^\\S+@\\S+\\.\\S+$",
+            submit: "Send request",
+            sending: "Sending...",
+            success: "Thanks. We will reply within one business day.",
+            opening:
+              "Opening your email app. Please press Send there to finish.",
+            fallback: "Sorry, we could not send your request.",
+            emailInstead: "Email us instead", // the Send button turns into this if online sending fails
+            errors: {
+              invalid: "Please fill in your name and a valid email.",
+              send: "Sorry, we could not send your request.",
+            },
+            fields: [
+              { name: "name", label: "Name", type: "text", required: true },
+              { name: "email", label: "Email", type: "email", required: true },
+              { name: "phone", label: "Phone / WhatsApp", type: "tel" },
+              {
+                name: "platform",
+                label: "Marketplace",
+                type: "select",
+                options: ["Noon", "Amazon", "Trendyol", "All three"],
+              },
+              { name: "message", label: "Message", type: "textarea", rows: 4 },
+            ],
+          },
+        },
+
+        offices: {
+          id: "offices",
+          title: "Our offices",
+          items: [
+            {
+              city: "Dubai, UAE",
+              address: "Address line. Edit.",
+              phone: "+971 00 000 0000",
+            },
+            {
+              city: "Office two",
+              address: "Address line. Edit.",
+              phone: "Phone. Edit.",
+            },
+            {
+              city: "Office three",
+              address: "Address line. Edit.",
+              phone: "Phone. Edit.",
+            },
+          ],
+        },
+
+        footer: {
+          tagline: "Short company line. Edit.",
+          copyright: "© {year} {brand}",
+          right: "{domain}",
+          columns: [
+            {
+              title: "Company",
+              links: [
+                { label: "About", href: "#about" },
+                { label: "Process", href: "#process" },
+                { label: "FAQ", href: "#faq" },
+              ],
+            },
+            {
+              title: "Services",
+              links: [
+                { label: "Listing", href: "#services" },
+                { label: "Account management", href: "#services" },
+                { label: "Packages", href: "#packages" },
+              ],
+            },
+            {
+              title: "Contact",
+              links: [
+                { label: "{email}", href: "mailto:{email}" },
+                { label: "{phoneLabel}", href: "#contact" },
+              ],
+            },
+          ],
+        },
+      };
+    </script>
+
+    <!-- =====================================================================
+         2. STYLES  -  no colors or sizes are written here; they all come
+         from CONFIG.theme through CSS variables.
+         ===================================================================== -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--header-offset);
+      }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--paper);
+        font: 16px/1.6 var(--body);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: var(--head);
+        margin: 0;
+        line-height: 1.15;
+      }
+      h2 {
+        font-size: clamp(26px, 3vw, 36px);
+        margin-bottom: 12px;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 var(--gutter);
+      }
+      .narrow {
+        max-width: var(--narrow);
+      }
+      .section {
+        padding: var(--section-pad) 0;
+      }
+      .alt {
+        background: var(--ink2);
+      }
+      .lead {
+        color: var(--dim);
+        margin-bottom: 28px;
+      }
+      :focus-visible {
+        outline: 2px solid var(--gold2);
+        outline-offset: 3px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: var(--radius);
+        font-weight: 700;
+        font-size: 14.5px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-family: var(--body);
+        transition: 0.15s;
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--on-gold);
+      }
+      .btn-gold:hover {
+        background: var(--gold-hover);
+      }
+      .btn-line {
+        border-color: var(--line);
+        color: var(--paper);
+        background: none;
+      }
+      .btn-line:hover {
+        border-color: var(--gold);
+        color: var(--gold2);
+      }
+
+      /* top bar */
+      .topbar {
+        background: var(--chrome);
+        font-size: 13px;
+        color: var(--chrome-text);
+      }
+      .topbar-in {
+        display: flex;
+        gap: 8px 24px;
+        align-items: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        flex-wrap: wrap;
+      }
+      .topbar-link {
+        margin-left: auto;
+        color: var(--chrome-accent);
+        font-weight: 700;
+      }
+
+      /* header */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--header-bg);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+      .logo {
+        font: 700 19px var(--head);
+      }
+      .logo span {
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .main-nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        margin-left: auto;
+      }
+      .main-nav > a,
+      .mega-trigger {
+        font: 600 14.5px var(--body);
+        color: var(--dim);
+        background: none;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+      }
+      .main-nav > a:hover,
+      .mega-trigger:hover {
+        color: var(--paper);
+      }
+      .main-nav > a.nav-cta,
+      .main-nav > a.nav-cta:hover {
+        background: var(--gold);
+        color: var(--on-gold);
+        padding: 12px 22px;
+        border: 1px solid transparent;
+      }
+      .main-nav > a.nav-cta:hover {
+        background: var(--gold-hover);
+      }
+      .menu-btn {
+        display: none;
+        background: none;
+        border: 1px solid var(--line);
+        color: var(--paper);
+        padding: 8px 14px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font: inherit;
+      }
+      .theme-btn {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        margin-left: 20px;
+        background: none;
+        border: 1px solid var(--line);
+        color: var(--paper);
+        border-radius: 50%;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: 0.15s;
+      }
+      .theme-btn:hover {
+        border-color: var(--gold);
+      }
+      .theme-btn.has-label {
+        width: auto;
+        grid-auto-flow: column;
+        gap: 8px;
+        padding: 0 14px;
+        border-radius: var(--radius-pill);
+        font: 600 13.5px var(--body);
+      }
+      .theme-btn svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .theme-btn .sun {
+        display: none;
+      }
+      :root[data-theme="dark"] .theme-btn .sun {
+        display: block;
+      }
+      :root[data-theme="dark"] .theme-btn .moon {
+        display: none;
+      }
+      .has-mega {
+        position: static;
+      }
+      .mega {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background: var(--ink2);
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow-lg);
+        padding: 30px
+          max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+        gap: 32px;
+      }
+      .has-mega.open .mega {
+        display: grid;
+      }
+      .mega-col h4 {
+        font-size: 15px;
+        color: var(--gold2);
+        margin-bottom: 12px;
+      }
+      .mega-col a {
+        display: block;
+        padding: 5px 0;
+        color: var(--dim);
+        font-size: 14.5px;
+      }
+      .mega-col a:hover {
+        color: var(--paper);
+      }
+
+      /* hero */
+      .hero {
+        border-bottom: 1px solid var(--line);
+        position: relative;
+        background: linear-gradient(
+          135deg,
+          var(--hero-a) 0%,
+          var(--hero-b) 60%
+        );
+      }
+      .slides {
+        position: relative;
+        min-height: 420px;
+        background: var(--hero-image) right center/auto 85% no-repeat;
+      }
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s;
+      }
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+      }
+      .slide-in {
+        padding-top: 56px;
+        padding-bottom: 56px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: 48px;
+        align-items: center;
+      }
+      .slide-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+      }
+      .slide h1 {
+        font-size: clamp(30px, 4.6vw, 56px);
+        max-width: 18ch;
+        margin-bottom: 18px;
+      }
+      .slide p {
+        max-width: 46ch;
+        color: var(--dim);
+        font-size: clamp(16px, 1.6vw, 18px);
+        margin-bottom: 26px;
+      }
+      .hero-ctrl {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 26px;
+      }
+      .hero-ctrl button {
+        background: none;
+        border: 1px solid var(--line);
+        color: var(--paper);
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .hero-ctrl button:hover {
+        border-color: var(--gold);
+      }
+      .dots {
+        display: flex;
+        gap: 8px;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--line);
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+      }
+      .dot.active {
+        background: var(--gold);
+      }
+
+      /* stats */
+      .stats {
+        background: var(--ink2);
+        border-bottom: 1px solid var(--line);
+        padding: 44px 0;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+        gap: 24px;
+      }
+      .stats b {
+        font: 700 clamp(30px, 3.4vw, 44px) var(--head);
+        color: var(--gold2);
+      }
+      .stat-label {
+        display: block;
+        color: var(--dim);
+        font-size: 14px;
+      }
+
+      /* about / two col */
+      .two-col {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+        gap: clamp(28px, 5vw, 56px);
+        align-items: center;
+      }
+      .about-img {
+        width: 100%;
+        height: auto;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--line);
+      }
+      .ticks {
+        list-style: none;
+        padding: 0;
+        margin: 18px 0 0;
+      }
+      .ticks li {
+        padding: 8px 0 8px 22px;
+        border-top: 1px solid var(--line);
+        position: relative;
+        color: var(--dim);
+      }
+      .ticks li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 18px;
+        width: 8px;
+        height: 2px;
+        background: var(--gold);
+      }
+
+      /* tabs + cards */
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 28px;
+      }
+      .tab {
+        background: none;
+        border: 1px solid var(--line);
+        color: var(--dim);
+        padding: 9px 18px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font: 600 14px var(--body);
+      }
+      .tab.active {
+        background: var(--gold);
+        color: var(--on-gold);
+        border-color: var(--gold);
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+      }
+      .card h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      .card p {
+        color: var(--dim);
+        font-size: 14.5px;
+        margin: 0;
+      }
+      .card.hide {
+        display: none;
+      }
+
+      /* plans */
+      .plans {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+        gap: 16px;
+      }
+      .plan {
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 26px 22px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .plan.featured {
+        border-color: var(--gold);
+        background: var(--featured);
+      }
+      .badge {
+        position: absolute;
+        top: -11px;
+        left: 20px;
+        background: var(--gold);
+        color: var(--on-gold);
+        font: 700 12px var(--body);
+        padding: 3px 10px;
+        border-radius: var(--radius);
+      }
+      .plan h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      .price {
+        font: 700 26px var(--head);
+        color: var(--gold2);
+        margin-bottom: 14px;
+      }
+      .price small {
+        font: 500 13px var(--body);
+        color: var(--muted);
+      }
+      .plan ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px;
+        flex: 1;
+      }
+      .plan li {
+        padding: 7px 0;
+        border-top: 1px solid var(--line);
+        color: var(--dim);
+        font-size: 14px;
+      }
+
+      /* steps */
+      .steps {
+        list-style: none;
+        padding: 0;
+        margin: 28px 0 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+        gap: 28px 24px;
+      }
+      .steps li {
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+      .step-no {
+        font: 500 13px var(--mono);
+        color: var(--gold2);
+        display: block;
+        margin-bottom: 12px;
+      }
+      .steps h3 {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .steps p {
+        color: var(--dim);
+        font-size: 14.5px;
+      }
+
+      /* industries */
+      .ind-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+        gap: 16px;
+      }
+      .ind {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 18px;
+        background: var(--surface);
+        transition: 0.15s;
+      }
+      .ind:hover {
+        border-color: var(--gold);
+      }
+      .ind i {
+        width: 42px;
+        height: 42px;
+        border-radius: var(--radius-lg);
+        background: var(--icon-bg);
+        color: var(--on-chrome);
+        display: grid;
+        place-items: center;
+        font: 600 14px var(--head);
+        font-style: normal;
+        flex-shrink: 0;
+      }
+      .ind i img {
+        width: 24px;
+        height: 24px;
+      }
+      .ind span {
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      /* clients */
+      .client-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .client {
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        transition: 0.15s;
+      }
+      .client:hover {
+        border-color: var(--gold);
+      }
+      .client-top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .client-av {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-lg);
+        background: var(--icon-bg);
+        color: var(--on-chrome);
+        display: grid;
+        place-items: center;
+        font: 600 14px var(--head);
+        font-style: normal;
+        flex-shrink: 0;
+      }
+      .client h3 {
+        font-size: 16px;
+        margin-bottom: 2px;
+        overflow-wrap: anywhere;
+      }
+      .client-id {
+        font: 500 13px var(--mono);
+        color: var(--gold2);
+      }
+      .client-stars {
+        margin-top: 14px;
+        color: var(--gold);
+        font-size: 18px;
+        letter-spacing: 2px;
+        line-height: 1;
+      }
+      .client-quote {
+        margin: 10px 0 0;
+        color: var(--dim);
+        font-size: 14.5px;
+      }
+
+      /* case studies */
+      .head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .head-row h2 {
+        margin: 0;
+      }
+      .case-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        gap: 20px;
+      }
+      .case {
+        display: block;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: var(--surface);
+        transition: 0.15s;
+      }
+      .case:hover {
+        border-color: var(--gold);
+      }
+      .case-img {
+        height: 170px;
+        background: var(--ink2);
+        overflow: hidden;
+      }
+      .case-img img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        display: block;
+      }
+      .case small,
+      .case h3,
+      .case p {
+        display: block;
+        padding: 0 20px;
+      }
+      .case small {
+        margin-top: 16px;
+        color: var(--gold2);
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .case h3 {
+        font-size: 18px;
+        margin: 6px 0 6px;
+      }
+      .case p {
+        color: var(--dim);
+        font-size: 14.5px;
+        padding-bottom: 20px;
+        margin: 0;
+      }
+
+      /* faq */
+      .faq-item {
+        border-top: 1px solid var(--line);
+      }
+      .faq-item:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .faq-q {
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: 0;
+        color: var(--paper);
+        font: 600 17px var(--head);
+        padding: 20px 40px 20px 0;
+        cursor: pointer;
+        position: relative;
+      }
+      .faq-q::after {
+        content: "+";
+        position: absolute;
+        right: 6px;
+        top: 18px;
+        color: var(--gold2);
+        font-size: 22px;
+      }
+      .faq-q[aria-expanded="true"]::after {
+        content: "\2212";
+      }
+      .faq-a {
+        display: none;
+        color: var(--dim);
+        padding-bottom: 16px;
+      }
+      .faq-q[aria-expanded="true"] + .faq-a {
+        display: block;
+      }
+
+      /* form */
+      .form {
+        display: grid;
+        gap: 14px;
+      }
+      .form label {
+        display: grid;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--dim);
+      }
+      .form input,
+      .form select,
+      .form textarea {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        color: var(--paper);
+        padding: 11px 12px;
+        border-radius: var(--radius);
+        font: 15px var(--body);
+        width: 100%;
+      }
+      .form .invalid {
+        border-color: var(--invalid);
+      }
+      .msg-link {
+        text-decoration: underline;
+      }
+      .hp {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+      }
+      .form-msg {
+        min-height: 20px;
+        font-size: 14px;
+        color: var(--gold2);
+        margin: 0;
+      }
+
+      /* offices */
+      .off-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+      .off {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+      }
+      .off h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .off p {
+        color: var(--dim);
+        font-size: 14.5px;
+        margin-bottom: 6px;
+      }
+
+      /* pie chart */
+      .pie-wrap {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+        gap: clamp(24px, 5vw, 56px);
+        align-items: center;
+      }
+      .pie {
+        width: 100%;
+        max-width: var(--pie-size);
+        height: auto;
+        margin: 0 auto;
+        display: block;
+      }
+      .pie-slice {
+        stroke: var(--ink);
+        stroke-width: 1.5;
+        transition: opacity 0.15s;
+      }
+      .section.alt .pie-slice {
+        stroke: var(--ink2);
+      }
+      .pie.dim .pie-slice:not(.on) {
+        opacity: 0.4;
+      }
+      .pie-legend {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .pie-legend li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid transparent;
+        border-top-color: var(--line);
+        transition: 0.15s;
+        cursor: default;
+      }
+      .pie-legend li:last-child {
+        border-bottom-color: var(--line);
+      }
+      .pie-legend li.on {
+        border-color: var(--gold);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+      }
+      .swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: var(--radius);
+        flex-shrink: 0;
+      }
+      .pie-name {
+        flex: 1;
+        font-weight: 600;
+      }
+      .pie-pct {
+        font: 700 18px var(--head);
+        color: var(--gold2);
+      }
+
+      /* footer */
+      .footer {
+        background: var(--chrome);
+        color: var(--chrome-text);
+        padding: 52px 0 26px;
+      }
+      .footer .logo,
+      .footer .logo span {
+        color: var(--on-chrome);
+      }
+      .foot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+        gap: 36px;
+        padding-bottom: 34px;
+        border-bottom: 1px solid var(--chrome-line);
+      }
+      .foot-grid h4 {
+        font-size: 14px;
+        color: var(--on-chrome);
+        margin-bottom: 14px;
+      }
+      .foot-grid a:not(.logo) {
+        display: block;
+        color: var(--chrome-dim);
+        font-size: 14px;
+        margin-bottom: 10px;
+        overflow-wrap: anywhere;
+      }
+      .foot-grid a:not(.logo):hover {
+        color: var(--gold-hover);
+      }
+      .foot-grid p {
+        color: var(--chrome-dim);
+        font-size: 14px;
+        margin-top: 12px;
+      }
+      .foot-bottom {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 22px;
+        font-size: 13px;
+        color: var(--chrome-dim);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+
+    <!-- =====================================================================
+         3. THEME BOOTSTRAP  -  turns CONFIG into CSS variables and picks the
+         theme before first paint (no flash). Nothing to edit here.
+         ===================================================================== -->
+    <script>
+      (function () {
+        const C = CONFIG,
+          T = C.theme,
+          S = C.site,
+          root = document.documentElement;
+        const kebab = (k) => k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase());
+        const vars = (o) =>
+          Object.entries(o)
+            .map(([k, v]) => "--" + kebab(k) + ":" + v)
+            .join(";");
+        const heroImg = C.hero.bgImage
+          ? 'url("' + C.hero.bgImage + '")'
+          : "none";
+        const bp = C.breakpoints.mobile;
+
+        const css =
+          ":root{color-scheme:light;" +
+          vars(T.shared) +
+          ";" +
+          vars(T.light) +
+          ";" +
+          vars(T.fonts) +
+          ";" +
+          vars(T.layout) +
+          ";--hero-image:" +
+          heroImg +
+          "}" +
+          ':root[data-theme="dark"]{color-scheme:dark;' +
+          vars(T.dark) +
+          "}" +
+          "@media (max-width:" +
+          bp +
+          "px){" +
+          ".menu-btn{display:block;order:3;margin-left:10px}" +
+          ".theme-btn{order:2;margin-left:auto}" +
+          ".main-nav{display:none;position:absolute;top:100%;left:0;right:0;margin-left:0;background:var(--ink);flex-direction:column;align-items:stretch;padding:20px var(--gutter);gap:16px;border-bottom:1px solid var(--line)}" +
+          ".main-nav.open{display:flex}" +
+          ".main-nav>a.nav-cta{text-align:center}" +
+          ".has-mega{width:100%}" +
+          ".mega{position:static;padding:16px 0 0;background:none;border:0;box-shadow:none}" +
+          ".slides{background-size:auto 55%;background-position:right bottom}" +
+          ".slide-in{grid-template-columns:1fr;gap:26px;padding-top:40px;padding-bottom:30px}" +
+          "}";
+        const style = document.createElement("style");
+        style.id = "config-theme";
+        style.textContent =
+          css; /* appended after the static <style>, so mobile rules win */
+        document.head.appendChild(style);
+
+        if (T.fontsUrl) {
+          const l = document.createElement("link");
+          l.rel = "stylesheet";
+          l.href = T.fontsUrl;
+          document.head.appendChild(l);
+        }
+
+        const meta = (name, content) => {
+          let m = document.querySelector('meta[name="' + name + '"]');
+          if (!m) {
+            m = document.createElement("meta");
+            m.name = name;
+            document.head.appendChild(m);
+          }
+          m.content = content;
+        };
+        root.lang = S.lang;
+        document.title = S.title;
+        meta("description", S.description);
+
+        window.setTheme = function (t) {
+          root.setAttribute("data-theme", t);
+          meta("theme-color", T[t].themeColor);
+        };
+        let saved = null;
+        try {
+          saved = localStorage.getItem(S.storageKey);
+        } catch (e) {}
+        const sys = matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+        window.setTheme(saved === "light" || saved === "dark" ? saved : sys);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <!-- =====================================================================
+         4. RENDER + BEHAVIOUR  -  builds the page from CONFIG. Nothing to
+         edit here for content changes.
+         ===================================================================== -->
+    <script>
+      (function () {
+        const C = CONFIG,
+          S = C.site,
+          K = C.contact,
+          U = C.ui,
+          TM = C.timings;
+        const $ = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+        /* ---------- helpers ---------- */
+        const tokens = {
+          brand: S.name + " " + S.nameAccent,
+          email: K.email,
+          phone: K.phone,
+          phoneLabel: K.phoneLabel,
+          office: K.office,
+          year: S.year,
+          domain: S.domain,
+        };
+        const esc = (v) =>
+          String(v).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+              })[c],
+          );
+        const kebab = (k) => k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase());
+        const fmt = (s) =>
+          String(s).replace(/\{(\w+)\}/g, (m, k) =>
+            k in tokens ? tokens[k] : m,
+          );
+        const t = (s) => esc(fmt(s));
+        const link = (l, cls) =>
+          `<a href="${t(l.href)}"${cls ? ` class="${cls}"` : ""}>${t(l.label)}</a>`;
+        const sec = (cfg, cls, inner) =>
+          `<section${cfg.id ? ` id="${esc(cfg.id)}"` : ""} class="section${cls ? " " + cls : ""}">${inner}</section>`;
+        const initials = (label) =>
+          label
+            .split(/\W+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((w) => w[0])
+            .join("")
+            .toUpperCase();
+
+        /* ---------- parts ---------- */
+        const topbar = () =>
+          `<div class="topbar"><div class="wrap topbar-in">${C.topbar.items.map((i) => `<span>${t(i)}</span>`).join("")}${link(C.topbar.link, "topbar-link")}</div></div>`;
+
+        const navItem = (n) => {
+          if (n.columns) {
+            const cols = n.columns
+              .map(
+                (c) =>
+                  `<div class="mega-col"><h4>${t(c.title)}</h4>${c.links.map((l) => link(l)).join("")}</div>`,
+              )
+              .join("");
+            return `<div class="has-mega"><button class="mega-trigger" aria-expanded="false">${t(n.label)}</button><div class="mega">${cols}</div></div>`;
+          }
+          return link(n, n.cta ? "btn btn-gold nav-cta" : "");
+        };
+
+        const svg = (cls, inner) =>
+          `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${inner}</svg>`;
+
+        const header = () =>
+          `<header class="site-header"><div class="wrap nav">
+            <a href="#top" class="logo">${t(S.name)} <span>${t(S.nameAccent)}</span></a>
+            <button class="menu-btn" id="menuBtn" aria-label="${t(U.menuAria)}" aria-expanded="false">${t(U.menu)}</button>
+            <nav class="main-nav" id="mainNav">${C.nav.map(navItem).join("")}</nav>
+            <button class="theme-btn${U.themeToggle.showLabel ? " has-label" : ""}" id="themeBtn" type="button">${svg("moon", U.icons.moon)}${svg("sun", U.icons.sun)}${U.themeToggle.showLabel ? '<span class="theme-label"></span>' : ""}</button>
+          </div></header>`;
+
+        const R = {
+          hero() {
+            const H = C.hero;
+            const slide = (s, i) =>
+              `<div class="slide${i ? "" : " active"}"><div class="wrap slide-in"><div class="slide-text"><h1>${t(s.title)}</h1><p>${t(s.text)}</p>${link(s.cta, "btn btn-gold")}</div></div></div>`;
+            return `<section class="hero" id="${esc(H.id)}"><div class="slides">${H.slides.map(slide).join("")}</div>
+              <div class="wrap hero-ctrl"><button id="prevSlide" aria-label="${t(U.prevSlide)}">${esc(U.prevIcon)}</button><div class="dots" id="dots"></div><button id="nextSlide" aria-label="${t(U.nextSlide)}">${esc(U.nextIcon)}</button></div></section>`;
+          },
+
+          stats() {
+            return `<section class="stats"><div class="wrap stats-grid">${C.stats
+              .map(
+                (s) =>
+                  `<div><b><span data-count="${esc(s.value)}">0</span>${t(s.suffix || "")}</b><span class="stat-label">${t(s.label)}</span></div>`,
+              )
+              .join("")}</div></section>`;
+          },
+
+          about() {
+            const A = C.about;
+            return sec(
+              A,
+              "",
+              `<div class="wrap two-col"><div><h2>${t(A.title)}</h2><p>${t(A.text)}</p>
+              <ul class="ticks">${A.points.map((p) => `<li>${t(p)}</li>`).join("")}</ul></div></div>`,
+            );
+          },
+
+          services() {
+            const V = C.services;
+            return sec(
+              V,
+              "alt",
+              `<div class="wrap"><h2>${t(V.title)}</h2><p class="lead">${t(V.lead)}</p>
+              <div class="tabs" role="tablist">${V.tabs
+                .map(
+                  (b, i) =>
+                    `<button class="tab${i ? "" : " active"}" data-tab="${esc(b.key)}">${t(b.label)}</button>`,
+                )
+                .join("")}</div>
+              <div class="cards" id="serviceCards">${V.cards
+                .map(
+                  (c) =>
+                    `<article class="card" data-p="${esc(c.platforms.join(" "))}"><h3>${t(c.title)}</h3><p>${t(c.text)}</p></article>`,
+                )
+                .join("")}</div></div>`,
+            );
+          },
+
+          packages() {
+            const P = C.packages;
+            const plan = (p) =>
+              `<div class="plan${p.featured ? " featured" : ""}">${p.featured ? `<span class="badge">${t(P.badge)}</span>` : ""}
+                <h3>${t(p.name)}</h3>
+                <div class="price">${t(P.currency)} ${t(p.amount)}${p.period ? ` <small>${t(p.period)}</small>` : ""}</div>
+                <ul>${p.features.map((f) => `<li>${t(f)}</li>`).join("")}</ul>
+                ${link(P.cta, "btn " + (p.featured ? "btn-gold" : "btn-line"))}</div>`;
+            return sec(
+              P,
+              "",
+              `<div class="wrap"><h2>${t(P.title)}</h2><p class="lead">${t(P.lead)}</p><div class="plans">${P.plans.map(plan).join("")}</div></div>`,
+            );
+          },
+
+          process() {
+            const P = C.process;
+            return sec(
+              P,
+              "alt",
+              `<div class="wrap"><h2>${t(P.title)}</h2><ol class="steps">${P.steps
+                .map(
+                  (s, i) =>
+                    `<li><span class="step-no">${t(U.stepLabel)} ${i + 1}</span><h3>${t(s.title)}</h3><p>${t(s.text)}</p></li>`,
+                )
+                .join("")}</ol></div>`,
+            );
+          },
+
+          industries() {
+            const I = C.industries;
+            const item = (x) =>
+              `<div class="ind"><i>${esc(initials(x.label))}</i><span>${t(x.label)}</span></div>`;
+            return sec(
+              I,
+              "",
+              `<div class="wrap"><h2>${t(I.title)}</h2><p class="lead">${t(I.lead)}</p><div class="ind-grid">${I.items.map(item).join("")}</div></div>`,
+            );
+          },
+
+          pie() {
+            const P = C.pie;
+            const total = P.slices.reduce((a, s) => a + s.value, 0);
+            const c = 100,
+              r = 96,
+              ri = r * P.hole;
+            const pt = (rad, a) => [
+              c + rad * Math.cos(a),
+              c + rad * Math.sin(a),
+            ];
+            let a0 = -Math.PI / 2;
+            const items = P.slices.map((s) => ({
+              ...s,
+              frac: s.value / total,
+              pct: Math.round((s.value / total) * 100),
+            }));
+            const paths = items
+              .map((s, i) => {
+                const a1 = a0 + s.frac * 2 * Math.PI;
+                let d;
+                if (s.frac >= 0.9999) {
+                  const circle = (rad) =>
+                    `M${c - rad} ${c}a${rad} ${rad} 0 1 0 ${2 * rad} 0a${rad} ${rad} 0 1 0 ${-2 * rad} 0Z`;
+                  d = circle(r) + (ri ? circle(ri) : "");
+                } else {
+                  const [x0, y0] = pt(r, a0),
+                    [x1, y1] = pt(r, a1),
+                    large = s.frac > 0.5 ? 1 : 0;
+                  if (ri) {
+                    const [xi1, yi1] = pt(ri, a1),
+                      [xi0, yi0] = pt(ri, a0);
+                    d = `M${x0} ${y0}A${r} ${r} 0 ${large} 1 ${x1} ${y1}L${xi1} ${yi1}A${ri} ${ri} 0 ${large} 0 ${xi0} ${yi0}Z`;
+                  } else {
+                    d = `M${c} ${c}L${x0} ${y0}A${r} ${r} 0 ${large} 1 ${x1} ${y1}Z`;
+                  }
+                }
+                a0 = a1;
+                return `<path class="pie-slice" data-i="${i}" d="${d}" fill="var(--${kebab(s.color)})" fill-rule="evenodd"><title>${t(s.label)}: ${s.pct}%</title></path>`;
+              })
+              .join("");
+            const summary = items
+              .map((s) => `${fmt(s.label)} ${s.pct}%`)
+              .join(", ");
+            const legend = items
+              .map(
+                (s, i) =>
+                  `<li data-i="${i}" tabindex="0"><span class="swatch" style="background:var(--${kebab(s.color)})"></span><span class="pie-name">${t(s.label)}</span><span class="pie-pct">${s.pct}%</span></li>`,
+              )
+              .join("");
+            return sec(
+              P,
+              P.alt ? "alt" : "",
+              `<div class="wrap"><h2>${t(P.title)}</h2><p class="lead">${t(P.lead)}</p>
+              <div class="pie-wrap"><svg class="pie" viewBox="0 0 200 200" role="img" aria-label="${esc(fmt(P.title) + ": " + summary)}">${paths}</svg>
+              <ul class="pie-legend">${legend}</ul></div></div>`,
+            );
+          },
+
+          testimonials() {
+            const Q = C.testimonials;
+            const stars = (n) =>
+              n > 0
+                ? `<div class="client-stars" role="img" aria-label="${esc(Q.ratingLabel.replace("{rating}", n).replace("{max}", Q.ratingMax))}">${esc(Q.star.repeat(n) + Q.starEmpty.repeat(Math.max(Q.ratingMax - n, 0)))}</div>`
+                : "";
+            const card = (c) =>
+              `<article class="client"><div class="client-top"><i class="client-av">${esc(initials(fmt(c.name)))}</i><div><h3>${t(c.name)}</h3><span class="client-id">${t(Q.idLabel)} ${t(c.id)}</span></div></div>${stars(c.rating || 0)}${c.quote ? `<p class="client-quote">${esc(Q.open)}${t(c.quote)}${esc(Q.close)}</p>` : ""}</article>`;
+            return sec(
+              Q,
+              "alt",
+              `<div class="wrap"><h2>${t(Q.title)}</h2><div class="client-grid">${Q.items.map(card).join("")}</div></div>`,
+            );
+          },
+
+          cases() {
+            const X = C.cases;
+            const item = (c) =>
+              `<a class="case" href="${t(c.href)}"><small>${t(c.platform)}</small><h3>${t(c.title)}</h3><p>${t(c.text)}</p></a>`;
+            return sec(
+              X,
+              "",
+              `<div class="wrap"><div class="head-row"><h2>${t(X.title)}</h2>${link(X.viewAll, "btn btn-line")}</div><div class="case-grid">${X.items.map(item).join("")}</div></div>`,
+            );
+          },
+
+          faq() {
+            const F = C.faq;
+            return sec(
+              F,
+              "",
+              `<div class="wrap narrow"><h2>${t(F.title)}</h2><div class="faq">${F.items
+                .map(
+                  (f, i) =>
+                    `<div class="faq-item"><button class="faq-q" aria-expanded="false" aria-controls="faq-a-${i}">${t(f.q)}</button><div class="faq-a" id="faq-a-${i}"><p>${t(f.a)}</p></div></div>`,
+                )
+                .join("")}</div></div>`,
+            );
+          },
+
+          contact() {
+            const X = C.contactSection,
+              F = X.form;
+            const field = (f) => {
+              let ctl;
+              if (f.type === "select")
+                ctl = `<select name="${esc(f.name)}">${f.options.map((o) => `<option>${t(o)}</option>`).join("")}</select>`;
+              else if (f.type === "textarea")
+                ctl = `<textarea name="${esc(f.name)}" rows="${esc(f.rows || 4)}"></textarea>`;
+              else
+                ctl = `<input type="${esc(f.type)}" name="${esc(f.name)}"${f.required ? " required" : ""} />`;
+              return `<label>${t(f.label)}${ctl}</label>`;
+            };
+            return sec(
+              X,
+              "alt",
+              `<div class="wrap two-col"><div><h2>${t(X.title)}</h2><p>${t(X.reply)}</p><p>${X.lines.map((l) => t(l)).join("<br />")}</p></div>
+              <form id="contactForm" class="form" novalidate>${F.fields.map(field).join("")}${F.honeypot ? `<input class="hp" type="text" name="${esc(F.honeypot)}" tabindex="-1" autocomplete="off" aria-hidden="true" />` : ""}
+              <button type="submit" class="btn btn-gold">${t(F.submit)}</button><p class="form-msg" id="formMsg" role="status"></p></form></div>`,
+            );
+          },
+
+          offices() {
+            const O = C.offices;
+            return sec(
+              O,
+              "alt",
+              `<div class="wrap"><h2>${t(O.title)}</h2><div class="off-grid">${O.items
+                .map(
+                  (o) =>
+                    `<div class="off"><h3>${t(o.city)}</h3><p>${t(o.address)}</p><p>${t(o.phone)}</p></div>`,
+                )
+                .join("")}</div></div>`,
+            );
+          },
+        };
+
+        const footer = () => {
+          const F = C.footer;
+          return `<footer class="footer"><div class="wrap foot-grid">
+            <div><a href="#top" class="logo">${t(S.name)} <span>${t(S.nameAccent)}</span></a><p>${t(F.tagline)}</p></div>
+            ${F.columns.map((c) => `<div><h4>${t(c.title)}</h4>${c.links.map((l) => link(l)).join("")}</div>`).join("")}
+          </div><div class="wrap foot-bottom"><span>${t(F.copyright)}</span><span>${t(F.right)}</span></div></footer>`;
+        };
+
+        /* ---------- render ---------- */
+        $("#app").innerHTML =
+          topbar() +
+          header() +
+          `<main id="top">${C.order.map((k) => R[k]()).join("")}</main>` +
+          footer();
+
+        /* ---------- theme toggle ---------- */
+        const root = document.documentElement,
+          themeBtn = $("#themeBtn");
+        const sysDark = matchMedia("(prefers-color-scheme: dark)");
+        const stored = () => {
+          try {
+            return localStorage.getItem(S.storageKey);
+          } catch (e) {
+            return null;
+          }
+        };
+        function applyTheme(th) {
+          window.setTheme(th);
+          const msgTxt = th === "dark" ? U.toLight : U.toDark;
+          themeBtn.setAttribute("aria-label", msgTxt);
+          themeBtn.setAttribute("title", msgTxt);
+          const lbl = $(".theme-label", themeBtn);
+          if (lbl)
+            lbl.textContent =
+              th === "dark"
+                ? U.themeToggle.labelToLight
+                : U.themeToggle.labelToDark;
+        }
+        applyTheme(root.getAttribute("data-theme"));
+        themeBtn.addEventListener("click", () => {
+          const next =
+            root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          applyTheme(next);
+          try {
+            localStorage.setItem(S.storageKey, next);
+          } catch (e) {}
+        });
+        sysDark.addEventListener("change", (e) => {
+          if (!stored()) applyTheme(e.matches ? "dark" : "light");
+        });
+
+        /* ---------- mobile menu + mega menus ---------- */
+        const menuBtn = $("#menuBtn"),
+          nav = $("#mainNav"),
+          megas = $$(".has-mega");
+        menuBtn.addEventListener("click", () => {
+          const open = nav.classList.toggle("open");
+          menuBtn.setAttribute("aria-expanded", open);
+        });
+        const setMega = (m, open) => {
+          m.classList.toggle("open", open);
+          $(".mega-trigger", m).setAttribute("aria-expanded", open);
+        };
+        megas.forEach((m) =>
+          $(".mega-trigger", m).addEventListener("click", (e) => {
+            e.stopPropagation();
+            const willOpen = !m.classList.contains("open");
+            megas.forEach((x) => setMega(x, false));
+            setMega(m, willOpen);
+          }),
+        );
+        document.addEventListener("click", (e) =>
+          megas.forEach((m) => {
+            if (!m.contains(e.target)) setMega(m, false);
+          }),
+        );
+        $$(".mega a, .main-nav > a").forEach((a) =>
+          a.addEventListener("click", () => {
+            megas.forEach((m) => setMega(m, false));
+            nav.classList.remove("open");
+            menuBtn.setAttribute("aria-expanded", false);
+          }),
+        );
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") megas.forEach((m) => setMega(m, false));
+        });
+
+        /* ---------- hero slider ---------- */
+        const slides = $$(".slide"),
+          dotsBox = $("#dots");
+        let cur = 0,
+          timer;
+        slides.forEach((_, i) => {
+          const d = document.createElement("button");
+          d.className = "dot" + (i === 0 ? " active" : "");
+          d.setAttribute("aria-label", U.goToSlide.replace("{n}", i + 1));
+          d.addEventListener("click", () => {
+            go(i);
+            restart();
+          });
+          dotsBox.appendChild(d);
+        });
+        const dots = $$(".dot");
+        function go(n) {
+          cur = (n + slides.length) % slides.length;
+          slides.forEach((s, i) => s.classList.toggle("active", i === cur));
+          dots.forEach((d, i) => d.classList.toggle("active", i === cur));
+        }
+        function restart() {
+          clearInterval(timer);
+          timer = setInterval(() => go(cur + 1), TM.heroMs);
+        }
+        $("#prevSlide").addEventListener("click", () => {
+          go(cur - 1);
+          restart();
+        });
+        $("#nextSlide").addEventListener("click", () => {
+          go(cur + 1);
+          restart();
+        });
+        restart();
+
+        /* ---------- count-up stats ---------- */
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) => {
+              if (!en.isIntersecting) return;
+              const el = en.target,
+                end = +el.dataset.count,
+                t0 = performance.now();
+              (function tick(now) {
+                const p = Math.min((now - t0) / TM.countMs, 1);
+                el.textContent = Math.round(end * p);
+                if (p < 1) requestAnimationFrame(tick);
+              })(t0);
+              io.unobserve(el);
+            });
+          },
+          { threshold: TM.countThreshold },
+        );
+        $$("[data-count]").forEach((c) => io.observe(c));
+
+        /* ---------- service tabs ---------- */
+        $$(".tab").forEach((tab) =>
+          tab.addEventListener("click", () => {
+            $$(".tab").forEach((x) => x.classList.remove("active"));
+            tab.classList.add("active");
+            const f = tab.dataset.tab;
+            $$("#serviceCards .card").forEach((c) =>
+              c.classList.toggle(
+                "hide",
+                f !== C.services.allKey && !c.dataset.p.split(" ").includes(f),
+              ),
+            );
+          }),
+        );
+
+        /* ---------- pie chart hover / focus highlight ---------- */
+        const pieSvg = $(".pie");
+        if (pieSvg) {
+          const marks = $$(".pie-slice, .pie-legend li");
+          const light = (i) => {
+            pieSvg.classList.toggle("dim", i !== null);
+            marks.forEach((m) =>
+              m.classList.toggle("on", i !== null && m.dataset.i === String(i)),
+            );
+          };
+          marks.forEach((m) => {
+            ["pointerenter", "focus"].forEach((ev) =>
+              m.addEventListener(ev, () => light(m.dataset.i)),
+            );
+            ["pointerleave", "blur"].forEach((ev) =>
+              m.addEventListener(ev, () => light(null)),
+            );
+          });
+        }
+
+        /* ---------- faq accordion ---------- */
+        $$(".faq-q").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const open = btn.getAttribute("aria-expanded") === "true";
+            $$(".faq-q").forEach((b) =>
+              b.setAttribute("aria-expanded", "false"),
+            );
+            btn.setAttribute("aria-expanded", String(!open));
+          }),
+        );
+
+        /* ---------- contact form ---------- */
+        const FORM = C.contactSection.form,
+          MAIL = FORM.mail;
+        const form = $("#contactForm"),
+          msg = $("#formMsg"),
+          submitBtn = $("button[type=submit]", form);
+        const emailRe = new RegExp(FORM.emailPattern);
+        const submitLabel = submitBtn.textContent;
+
+        /* build the email that opens in the visitor's mail app */
+        const fill = (s, data) =>
+          fmt(s).replace(/\{(\w+)\}/g, (m, k) =>
+            data[k] !== undefined ? data[k] : m,
+          );
+        const buildMail = (data) => {
+          const val = (k) => String(data[k] || "").trim() || "-";
+          const rule = "--------------------";
+          const lines = [
+            fill(MAIL.greeting, data),
+            "",
+            fill(MAIL.intro, data),
+            "",
+            rule,
+          ];
+          FORM.fields
+            .filter((f) => f.name !== MAIL.messageField)
+            .forEach((f) => lines.push(f.label + ": " + val(f.name)));
+          lines.push(
+            rule,
+            "",
+            MAIL.messageHeading,
+            val(MAIL.messageField).replace(/\r?\n/g, "\r\n"),
+            "",
+            MAIL.closing,
+            String(data[MAIL.nameField] || "").trim(),
+          );
+          return {
+            subject: fill(MAIL.subject, data),
+            body: lines.join("\r\n"),
+          };
+        };
+        const mailtoHref = (data) => {
+          const m = buildMail(data);
+          let href =
+            "mailto:" +
+            FORM.recipient +
+            "?subject=" +
+            encodeURIComponent(m.subject) +
+            "&body=" +
+            encodeURIComponent(m.body);
+          if (href.length > 1900) {
+            /* very long messages break some mail apps */
+            let b = m.body;
+            while (href.length > 1900 && b.length > 50) {
+              b = b.slice(0, Math.floor(b.length * 0.9));
+              href =
+                "mailto:" +
+                FORM.recipient +
+                "?subject=" +
+                encodeURIComponent(m.subject) +
+                "&body=" +
+                encodeURIComponent(b + "...");
+            }
+          }
+          return href;
+        };
+        const gmailHref = (data) => {
+          const m = buildMail(data);
+          return (
+            FORM.gmailUrl +
+            "&to=" +
+            encodeURIComponent(FORM.recipient) +
+            "&su=" +
+            encodeURIComponent(m.subject) +
+            "&body=" +
+            encodeURIComponent(m.body)
+          );
+        };
+        /* opens the mail app; if nothing opens (no app set up), goes to Gmail on the web instead. Must run straight from a click. */
+        const openMail = (data) => {
+          let left = false;
+          const mark = () => {
+            left = true;
+          };
+          const onVis = () => {
+            if (document.hidden) mark();
+          };
+          window.addEventListener("blur", mark);
+          window.addEventListener("pagehide", mark);
+          document.addEventListener("visibilitychange", onVis);
+          const a = document.createElement("a");
+          a.href = mailtoHref(data);
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => {
+            window.removeEventListener("blur", mark);
+            window.removeEventListener("pagehide", mark);
+            document.removeEventListener("visibilitychange", onVis);
+            if (left) return; /* mail app opened */
+            window.open(
+              gmailHref(data),
+              "_blank",
+              "noopener",
+            ); /* Gmail in a new tab */
+          }, 1500);
+        };
+        const showLinks = (text) => {
+          msg.textContent = text;
+        };
+
+        /* send through the online service; throws on any failure */
+        const sendOnline = async (data) => {
+          const extra = Object.fromEntries(
+            Object.entries(FORM.extra || {}).map(([k, v]) => [k, fmt(v)]),
+          );
+          const ctl = new AbortController(),
+            timer = setTimeout(() => ctl.abort(), FORM.timeoutMs);
+          try {
+            const r = await fetch(
+              FORM.endpoint.replace("{recipient}", FORM.recipient),
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                body: JSON.stringify({ ...extra, ...data }),
+                signal: ctl.signal,
+              },
+            );
+            const j = await r.json().catch(() => ({}));
+            if (!r.ok || j.success === false || j.success === "false")
+              throw new Error(j.message || r.status);
+          } finally {
+            clearTimeout(timer);
+          }
+        };
+
+        let armed = false; /* true after online sending failed: the button now opens the mail app */
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          let ok = true;
+          FORM.fields
+            .filter((f) => f.required)
+            .forEach((f) => {
+              const el = form.elements[f.name],
+                v = el.value.trim();
+              const bad = !v || (f.type === "email" && !emailRe.test(v));
+              el.classList.toggle("invalid", bad);
+              if (bad) ok = false;
+            });
+          if (!ok) {
+            msg.textContent = FORM.errors.invalid;
+            return;
+          }
+
+          const data = Object.fromEntries(new FormData(form));
+          if (armed) {
+            showLinks(FORM.opening, data);
+            openMail(data);
+            return;
+          }
+          const done = () => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = armed ? FORM.emailInstead : submitLabel;
+          };
+          submitBtn.disabled = true;
+          submitBtn.textContent = FORM.sending;
+          msg.textContent = "";
+
+          /* 1. try online (not possible when the page is opened as a local file) */
+          if (
+            FORM.mode !== "mailto" &&
+            FORM.endpoint &&
+            location.protocol !== "file:"
+          ) {
+            try {
+              await sendOnline(data);
+              done();
+              msg.textContent = FORM.success;
+              form.reset();
+              return;
+            } catch (err) {
+              console.warn("Online send failed:", err);
+            }
+          }
+
+          /* 2. online-only mode: show manual options */
+          if (FORM.mode === "service" && FORM.endpoint) {
+            done();
+            showLinks(FORM.errors.send, data);
+            return;
+          }
+
+          /* 3a. mailto mode: still inside the click, so the mail app can open straight away */
+          if (
+            FORM.mode === "mailto" ||
+            !FORM.endpoint ||
+            location.protocol === "file:"
+          ) {
+            done();
+            showLinks(FORM.opening, data);
+            openMail(data);
+            return;
+          }
+
+          /* 3b. online sending failed: Safari blocks auto-opening mail now, so turn the button into "Email us instead" */
+          done();
+          armed = true;
+          submitBtn.textContent = FORM.emailInstead;
+          showLinks(FORM.fallback, data);
+        });
+      })();
+    </script>
+  </body>
+</html>
+```
